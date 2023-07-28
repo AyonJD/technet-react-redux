@@ -25,6 +25,15 @@ const cartSlice = createSlice({
         state.products.push({ ...action.payload, quantity: 1 });
       }
     },
+    removeOne: (state, action: PayloadAction<IProduct>) => {
+      const isExist = state.products.find(
+        (product) => product._id === action.payload._id
+      );
+      if (isExist && isExist.quantity! > 1) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        isExist.quantity = isExist.quantity! - 1;
+      }
+    },
     removeCart: (state, action: PayloadAction<IProduct>) => {
       state.products = state.products.filter(
         (product) => product._id !== action.payload._id
@@ -33,5 +42,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeCart } = cartSlice.actions;
+export const { addToCart, removeCart, removeOne } = cartSlice.actions;
 export default cartSlice.reducer;
