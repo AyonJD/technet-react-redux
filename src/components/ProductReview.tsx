@@ -3,10 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
-import {
-  useGetCommentsQuery,
-  usePostCommentMutation,
-} from '@/redux/api/apiSlice';
+import { useGetCommentsQuery, usePostCommentMutation } from '@/redux/features/products/product.api';
 
 interface IProps {
   id: string;
@@ -16,7 +13,10 @@ export default function ProductReview({ id }: IProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [postComment, { isLoading, isError, isSuccess }] =
     usePostCommentMutation();
-  const { data: dummyComments } = useGetCommentsQuery(id);
+  const { data: dummyComments } = useGetCommentsQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 10000,
+  }); // Here refetchOnMountOrArgChange will refetch the data when the component is mounted or when the id changes. pollingInterval will refetch the data every 10 seconds. and pollingInterval will refetch the data every 10 seconds.
 
   console.log({ isLoading, isError, isSuccess });
 
